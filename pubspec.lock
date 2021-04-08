@@ -120,6 +120,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  firebase_database:
+    dependency: "direct main"
+    description:
+      name: firebase_database
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -135,6 +142,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: "direct main"
+    description:
+      name: fluttertoast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.1.8"
   http_parser:
     dependency: transitive
     description:

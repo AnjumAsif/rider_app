@@ -1,9 +1,45 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rider_app/main.dart';
+import 'package:rider_app/screens/main_screen.dart';
 import 'package:rider_app/screens/registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
+  static const String idScreen = "loginScreen";
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  static const String idScreen="loginScreen";
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  void loginAuthenticateUser(BuildContext context) async {
+    final userCredential = await _firebaseAuth
+        .signInWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text)
+        .catchError((onError) {
+      displayMessage("Error: " + onError.toString());
+    });
+
+    final User userData = userCredential.user;
+    if (userData != null) {
+      userRef.child(userData.uid).once().then((value) => (DataSnapshot snap) {
+            if (snap != null) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, MainScreen.idScreen, (route) => false);
+              displayMessage('Your are logged in successfully');
+            } else {
+              _firebaseAuth.signOut();
+              displayMessage('No record found');
+            }
+          });
+    }
+  }
+
+  displayMessage(String message) {
+    Fluttertoast.showToast(msg: message);
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -53,7 +89,9 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 30.0),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        loginAuthenticateUser(context);
+                      },
                       onLongPress: () {},
                       style: ElevatedButton.styleFrom(
                           primary: Colors.yellow,

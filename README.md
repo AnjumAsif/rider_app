@@ -1,6 +1,7 @@
 # rider_app
 
-A new Flutter application.
+A new Flutter application which is clone for Uber Rider App.
+I am using here Firebase for backend control
 
 ## Getting Started
 
