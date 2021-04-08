@@ -8,15 +8,15 @@ import 'package:rider_app/screens/registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String idScreen = "loginScreen";
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  String emailController ;
+  String passwordController ;
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   void loginAuthenticateUser(BuildContext context) async {
     final userCredential = await _firebaseAuth
         .signInWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text)
+            email: emailController, password: passwordController)
         .catchError((onError) {
       displayMessage("Error: " + onError.toString());
     });
@@ -69,6 +69,10 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     SizedBox(height: 10.0),
                     TextFormField(
+
+                      onChanged: (value){
+                        emailController=value;
+                      },
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                           labelText: "Email",
@@ -80,6 +84,9 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(height: 10.0),
                     TextFormField(
                       obscureText: true,
+                      onChanged: (value){
+                        passwordController=value;
+                      },
                       decoration: InputDecoration(
                           labelText: "Password",
                           labelStyle: TextStyle(
